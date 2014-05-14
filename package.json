@@ -1,0 +1,30 @@
+{
+  "name": "backtrace",
+  "version": "0.0.0",
+  "description": "Library for getting stack traces in cross browser manner.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/3rd-Eden/backtrace"
+  },
+  "keywords": [
+    "stacktrace",
+    "stack",
+    "trace",
+    "traceback",
+    "backtrace",
+    "back"
+  ],
+  "author": "Arnout Kazemier",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/3rd-Eden/backtrace/issues"
+  },
+  "homepage": "https://github.com/3rd-Eden/backtrace",
+  "dependencies": {
+    "stacktrace-js": "git://github.com/stacktracejs/stacktrace.js"
+  }
+}
