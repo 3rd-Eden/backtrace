@@ -47,7 +47,7 @@ Stack.prototype.toString = function toString() {
   for (var i = 0, length = this.traces.length; i < length; i++) {
     var trace = this.traces[i];
     traces.push(
-      '    at '+ trace.name +' ('+ trace.file+ ':'+ trace.line +':'+ trace.column +')'
+      '    at '+ trace.name +' ('+ trace.file +':'+ trace.line +':'+ trace.column +')'
     );
   }
 
