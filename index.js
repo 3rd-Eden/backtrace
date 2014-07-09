@@ -27,8 +27,10 @@ function Stack(trace, options) {
 
   if (!trace) {
     var imp = new stacktrace.implementation()
-      , traced = imp.run(options.error || options.err || options.e);
+      , err = options.error || options.err || options.e
+      , traced;
 
+    traced = imp.run(err);
     trace = options.guess ? imp.guessAnonymousFunctions(traced) : traced;
   }
 
@@ -71,12 +73,12 @@ Stack.prototype.parse = function parse(trace) {
   var stack = [];
 
   for (var i = 0, length = trace.length; i < length; i++) {
-    var location = trace[i].split(':')
-      , script = location[0].split('@');
+    var location = /\:(\d+)\:?(\d+)?.?$/g.exec(trace[i]) || []
+      , script = trace[i].split('@');
 
     stack.push({
-      column: location[2],
-      line: location[1],
+      column: +((/\d+/.exec(location[2] || '') || [])[0]) || 0,
+      line: +((/\d+/.exec(location[1] || '') || [])[0]) || 0,
       name: script[0],
       file: script[1]
     });
