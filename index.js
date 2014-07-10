@@ -81,15 +81,20 @@ Stack.prototype.parse = function parse(trace) {
     // File: Really primitive check to get the path/file location out of the
     // stack. We assume that we're serving a file with a .js extension
     //
+    // - at callFn (http://localhost:1333/mocha.js:4338)
+    //
     var location = /\:(\d+)\:?(\d+)?.?$/g.exec(trace[i]) || []
       , file = /((?:\/[^\.\/\:]+)+\.js)/.exec(trace[i]) || []
-      , script = trace[i].split('@');
+      , name = (~trace[i].indexOf('@')
+          ? trace[i].split('@')
+          : /(?:at)\s(\w+)\s/g.exec(trace[i])
+        ) || [];
 
     stack.push({
       column: +location[2] || 0,
       line: +location[1] || 0,
       filename: file[0],
-      name: script[0]
+      name: name[0]
     });
   }
 
