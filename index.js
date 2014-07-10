@@ -50,7 +50,7 @@ Stack.prototype.toString = function toString() {
     var trace = this.traces[i]
       , location = [];
 
-    if (trace.file) location.push(trace.file);
+    if (trace.filename) location.push(trace.filename);
     if (trace.line) location.push(trace.line);
     if (trace.column) location.push(trace.column);
 
@@ -73,14 +73,23 @@ Stack.prototype.parse = function parse(trace) {
   var stack = [];
 
   for (var i = 0, length = trace.length; i < length; i++) {
+    //
+    // Location: We assume that the location information of the entry/exit is
+    // marked with digits that are separated by colon. 00:00. The first digit
+    // set is the line in the file and the second is the column of that line.
+    //
+    // File: Really primitive check to get the path/file location out of the
+    // stack. We assume that we're serving a file with a .js extension
+    //
     var location = /\:(\d+)\:?(\d+)?.?$/g.exec(trace[i]) || []
+      , file = /((?:\/[^\.\/\:]+)+\.js)/.exec(trace[i]) || []
       , script = trace[i].split('@');
 
     stack.push({
-      column: +((/\d+/.exec(location[2] || '') || [])[0]) || 0,
-      line: +((/\d+/.exec(location[1] || '') || [])[0]) || 0,
-      name: script[0],
-      file: script[1]
+      column: +location[2] || 0,
+      line: +location[1] || 0,
+      filename: file[0],
+      name: script[0]
     });
   }
 
